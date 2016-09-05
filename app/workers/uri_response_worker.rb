@@ -17,7 +17,9 @@ class UriResponseWorker
           bad_response(link, response_code, id, link_text)
         end
       rescue Timeout::Error
-        bad_response(link, response_code, id, link_text)
+        bad_response(link, 'Timeout', id, link_text)
+      rescue Errno::ECONNREFUSED
+        bad_response(link, 'Connection Refused', id, link_text)
       end
     end
   end
@@ -32,7 +34,7 @@ class UriResponseWorker
         timestamp: "#{Time.zone.now}"
       link.update_attribute(:is_good, true)
     end
-    UriResponseWorker.perform_in(2.seconds, id, link_text)
+    UriResponseWorker.perform_in(60.seconds, id, link_text)
   end
 
   def bad_response(link, response_code, id, link_text)
@@ -45,6 +47,6 @@ class UriResponseWorker
         timestamp: "#{Time.zone.now}"
       link.update_attribute(:is_good, false)
     end
-    UriResponseWorker.perform_in(2.seconds, id, link_text)
+    UriResponseWorker.perform_in(30.seconds, id, link_text)
   end
 end

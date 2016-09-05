@@ -19,7 +19,7 @@ class LinksController < ApplicationController
 
     respond_to do |format|
       if @link.save
-        UriResponseWorker.perform_async(@link.id, @link.text)
+        UriResponseWorker.perform_in(2.seconds, @link.id, @link.text)
         format.html { redirect_to links_path, notice: "Link was successfully created." }
         format.json { render :show, status: :created, location: @link }
       else
