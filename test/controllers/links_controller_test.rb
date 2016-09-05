@@ -20,22 +20,7 @@ class LinksControllerTest < ActionDispatch::IntegrationTest
       post links_url, params: { link: { text: @link.text } }
     end
 
-    assert_redirected_to link_url(Link.last)
-  end
-
-  test "should show link" do
-    get link_url(@link)
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get edit_link_url(@link)
-    assert_response :success
-  end
-
-  test "should update link" do
-    patch link_url(@link), params: { link: { text: @link.text } }
-    assert_redirected_to link_url(@link)
+    assert_redirected_to links_url
   end
 
   test "should destroy link" do
