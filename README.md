@@ -32,3 +32,9 @@
 * Services (job queues, cache servers, search engines, etc.)
 
   Sidekiq
+
+* How to run test suite:
+
+  ```
+  rails test
+  ```
